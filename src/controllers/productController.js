@@ -1,6 +1,8 @@
-import { db } from '../db-strategy/mongo.js';
+import dotenv from "dotenv";
 import dayjs from 'dayjs';
+import db from "../db-strategy/mongo.js";
 
+dotenv.config();
 
 export async function cadastrarProduto (req, res) {
   
@@ -8,7 +10,7 @@ export async function cadastrarProduto (req, res) {
   
         try {
             await db
-            .collection('produtos')
+            .collection(process.env.MONGO_PRODUTOS)
             .insertOne({
               product: dadosProduto.product,
               type: dadosProduto.type,
@@ -31,7 +33,7 @@ export async function retornarProdutos (req, res) {
 
   try {
     const produtosDisplay = await db
-      .collection('produtos')
+      .collection(process.env.MONGO_PRODUTOS)
       .find({ type: type })
       .toArray();
 
@@ -49,7 +51,7 @@ export async function retornarProdutoSelecionado (req, res) {
 
   try {
     const produtoSelecionado = await db
-      .collection('produtos')
+      .collection(process.env.MONGO_PRODUTOS)
       .findOne({ type: type, _id: id });
 
     res.status(200).send(produtoSelecionado);

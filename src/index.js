@@ -1,13 +1,19 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+import authRouter from "./routes/authRoute.js";
+import productRouter from "./routes/productRouter.js";
 
 dotenv.config();
-
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
+
+server.use(authRouter);
+server.use(productRouter);
 
 
 const PORT = process.env.PORT || 5000;
