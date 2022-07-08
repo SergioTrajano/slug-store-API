@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { compareSync } from "bcrypt";
 
 import getAuthSchema from "../schemas/getAuthorizationSchema.js";
 import db from "../db-strategy/mongo.js";
@@ -24,7 +25,7 @@ async function validateGetAuth(req, res, next) {
         res.sendStatus(404);
         return;
     }
-    if (usuarioNoBanco.password !== dadosUsuario.password) {
+    if (!compareSync(dadosUsuario.password, usuarioNoBanco.password)) {
         res.sendStatus(403);
         return;
     }

@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import { hashSync } from "bcrypt";
 
 import db from "../db-strategy/mongo.js";
 
@@ -7,9 +8,10 @@ dotenv.config();
 
 export async function signUp(req, res) {
     const dadosUsuarios = req.body;
+    const senhaHashada = hashSync(dadosUsuarios.password, 13);
 
     try {
-        await db.collection(process.env.MONGO_CADASTRADOS).insertOne(dadosUsuarios);
+        await db.collection(process.env.MONGO_CADASTRADOS).insertOne({...dadosUsuarios, password: senhaHashada});
 
         res.sendStatus(200);
     } catch (error) {
