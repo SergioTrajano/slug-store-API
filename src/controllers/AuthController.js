@@ -8,10 +8,10 @@ dotenv.config();
 
 export async function signUp(req, res) {
     const dadosUsuarios = req.body;
-    const senhaHashada = hashSync(dadosUsuarios.password, 13);
+    const senhaHashada = hashSync(dadosUsuarios.senha, 13);
 
     try {
-        await db.collection(process.env.MONGO_CADASTRADOS).insertOne({...dadosUsuarios, password: senhaHashada});
+        await db.collection(process.env.MONGO_CADASTRADOS).insertOne({...dadosUsuarios, senha: senhaHashada});
 
         res.sendStatus(200);
     } catch (error) {
@@ -34,7 +34,7 @@ export async function signIn(req, res) {
         const token = jwt.sign(dadosSessao, chaveSecreta);
         
         const dadosParaEnviar = {
-            name: usuario.name,
+            nome: usuario.nome,
             token,
         }
 

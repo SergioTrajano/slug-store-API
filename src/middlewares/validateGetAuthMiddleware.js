@@ -9,7 +9,7 @@ dotenv.config();
 async function validateGetAuth(req, res, next) {
     const dadosUsuario = {
         email: req.headers.email,
-        password: req.headers.password
+        senha: req.headers.senha
     };
 
     const { error } = getAuthSchema.validate(dadosUsuario);
@@ -25,7 +25,7 @@ async function validateGetAuth(req, res, next) {
         res.sendStatus(404);
         return;
     }
-    if (!compareSync(dadosUsuario.password, usuarioNoBanco.password)) {
+    if (!compareSync(dadosUsuario.senha, usuarioNoBanco.senha)) {
         res.sendStatus(403);
         return;
     }
