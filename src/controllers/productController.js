@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import dayjs from 'dayjs';
 import db from "../db-strategy/mongo.js";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ export async function cadastrarProduto (req, res) {
 };
 
 export async function retornarProdutos (req, res) {
-    const type = req.params.type; // como importar o parametro que está em routes?
+    const { type } = req.headers; // PEGA OS DADOS DO HEADERS PARA INDICAR A COLECAO DO BANCO! 
 
   try {
     const produtosDisplay = await db
@@ -41,21 +42,18 @@ export async function retornarProdutos (req, res) {
   } catch (error) {
     console.error('Não foi possível carregar os produtos');
   }
-}
+};
 
 export async function retornarProdutoSelecionado (req, res) {
-    const {
-        type,
-        id
-      } = req.params // como importar o parametro que está em routes?
+  const { id } = req.headers;
 
   try {
     const produtoSelecionado = await db
       .collection(process.env.MONGO_PRODUTOS)
-      .findOne({ type: type, _id: id });
+      .findOne({ _id: ObjectId(id) });
 
     res.status(200).send(produtoSelecionado);
   } catch (error) {
     console.error('Não foi possível carregar o produto selecionado');
   }
-}
+};

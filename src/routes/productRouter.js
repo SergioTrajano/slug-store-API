@@ -3,9 +3,9 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.post('/product', cadastrarProduto);
-router.get('/:type', retornarProdutos);
-router.get('/:type/:id', retornarProdutoSelecionado);
+router.post('/products', cadastrarProduto);
+router.get('/products', retornarProdutos);
+router.get('/products/id', retornarProdutoSelecionado);
 // rota put -> alterar quantidade em estoque
 // rota delete -> acabou produto no estoque
 
