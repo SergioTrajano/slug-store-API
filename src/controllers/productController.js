@@ -57,3 +57,24 @@ export async function retornarProdutoSelecionado (req, res) {
     console.error('Não foi possível carregar o produto selecionado');
   }
 };
+
+export async function atualizarProdutos (req, res) {
+  const pedido = res.locals.pedido;
+
+  try {
+      const carrinhodoUsuario = pedido.itens.cart; // seria o array de objetos = produtos
+      carrinhodoUsuario.map(produto => 
+        await db.collection(process.env.MONGO_PRODUTOS).updateOne(
+          { produtoId: produto._id }, //me perdi com os nomes!
+          { 
+              $set: {
+                  quantity: (produto.quantity -1),
+              } 
+          }));
+     
+      res.sendStatus(200);
+  } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+  }
+}
