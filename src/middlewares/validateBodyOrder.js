@@ -1,4 +1,4 @@
-import orderSchema from "../schemas/postOrderSchema";
+import orderSchema from "../schemas/postOrderSchema.js";
 
 
 export default function validateBodyOrder(req, res, next) {

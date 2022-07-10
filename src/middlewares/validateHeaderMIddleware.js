@@ -24,6 +24,8 @@ async function validateHeader(req, res, next) {
         return;
     }
 
+    res.locals.usuario = usuario;
+
     next();
 }
 

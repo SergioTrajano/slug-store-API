@@ -5,7 +5,7 @@ import db from "../db-strategy/mongo.js";
 dotenv.config();
 
 export async function deletarItem(req, res) {
-    const novoCarrinho = res.locals.carrinho;
+    const novoCarrinho = res.locals.novoCarrinho;
 
     try {
         await db.collection(process.env.MONGO_CARRINHOS).updateOne(
