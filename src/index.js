@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRouter from "./routes/authRoute.js";
 import productRouter from "./routes/productRouter.js";
+import cartRouter from "./routes/cartRoute.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ server.use(express.json());
 
 server.use(authRouter);
 server.use(productRouter);
+server.use(cartRouter);
 
 
 const PORT = process.env.PORT || 5000;
