@@ -8,6 +8,4 @@ const router = Router();
 router.put("/cart/:item", validateHeader, validateDeleteCCartItem, deletarItem);
 router.put("/cart", validateHeader, esvaziarCarrinho);
 
-
-
 export default router;

@@ -9,7 +9,7 @@ export default async function validatePutCart(req, res, next) {
     const chaveSecreta = process.env.JWT_SECRET;
 
     try {
-        const usuario = jwt.verify(token, chaveSecreta);
+        const usuario = jwt.verify(token.replace("Bearer ", ""), chaveSecreta);
         const carrinho = await db.collection(process.env.MONGO_CARRINHOS).findOne({carrinhoId: new ObjectId(usuario.sessionId)});
 
         if (!carrinho) {
