@@ -4,6 +4,26 @@ import db from "../db-strategy/mongo.js";
 
 dotenv.config();
 
+export async function adicionarItem(req, res) {
+    const carrinho = res.locals.carrinho;
+    const novoProduto = req.body;
+
+    try {
+        await db.collection(process.env.MONGO_CARRINHOS).updateOne(
+            { carrinhoId: user.sessionId }, 
+            { 
+                $set: {
+                    itens: carrinho.push(novoProduto),
+                } 
+            });
+        res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}
+
+
 export async function deletarItem(req, res) {
     const novoCarrinho = res.locals.novoCarrinho;
 

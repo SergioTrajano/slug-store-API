@@ -65,7 +65,7 @@ export async function atualizarProdutos (req, res) {
       const carrinhodoUsuario = pedido.itens.cart; // seria o array de objetos = produtos
       carrinhodoUsuario.map(produto => 
         await db.collection(process.env.MONGO_PRODUTOS).updateOne(
-          { produtoId: produto._id }, //me perdi com os nomes!
+          { produtoId: produto._id }, //me perdi com os nomes! Compara o id do produto do pedido com o id do produto da colecao produtos
           { 
               $set: {
                   quantity: (produto.quantity -1),
