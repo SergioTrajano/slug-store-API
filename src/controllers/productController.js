@@ -63,15 +63,21 @@ export async function atualizarProdutos (req, res) {
 
   try {
     const carrinhodoUsuario = pedido.itens; // seria o array de objetos = produtos
-    for(let i = 0; i < carrinhodoUsuario; i ++) {
-      await db.collection(process.env.MONGO_PRODUTOS).updateOne(
-        { _id: ObjectId(carrinhodoUsuario[i].produtoId)},
-        {
-          $set: {
-            quantity: quantity - 1,
-          }
+    const produtosTan = await db.collection(process.env.MONGO_PRODUTOS).find().toArray();
+    for(let i = 0; i < produtosTan.length; i ++) {
+      for(let j = 0; j < carrinhodoUsuario.length; j++) {
+        const produtos = await db.collection(process.env.MONGO_PRODUTOS).find().toArray();
+        if (produtos[i].product === carrinhodoUsuario[j].product) {
+          await db.collection(process.env.MONGO_PRODUTOS).updateOne(
+              { _id: ObjectId(produtos[i]._id)},
+              {
+                $set: {
+                  quantity: produtos[i].quantity - 1,
+                }
+              }
+              );
         }
-        );
+      }   
     }
     res.sendStatus(200);
   } catch (error) {

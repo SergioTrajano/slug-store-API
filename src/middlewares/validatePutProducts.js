@@ -10,7 +10,7 @@ export default async function validatePutProducts(req, res, next) {
 
     try {
         const usuario = jwt.verify(token.replace("Bearer ", ""), chaveSecreta);
-        const pedido = await db.collection(process.env.MONGO_PEDIDOS).findOne({pedidoId: new ObjectId(usuario.sessionId)});
+        const pedido = await db.collection(process.env.MONGO_PEDIDOS).findOne({pedidoId: (usuario.sessionId)});
 
         if (!pedido) {
             res.sendStatus(404);
@@ -18,7 +18,6 @@ export default async function validatePutProducts(req, res, next) {
         }
 
         res.locals.pedido = pedido;
-
         next();
     } catch (error) {
         console.log(error);
