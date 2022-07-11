@@ -10,7 +10,7 @@ function filter(carrinho, item) {
     let k = 0;
     console.log(`Item: ${item}`)
     for(let i = 0; i < carrinho.length; i++) {
-        if (carrinho[[i]] !== item) {
+        if (i !== Number(item)) {
             console.log("entrei aqui");
             carrinhoNovo[k] = carrinho[i];
             k++;
