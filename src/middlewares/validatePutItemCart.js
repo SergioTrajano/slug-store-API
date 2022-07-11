@@ -7,9 +7,11 @@ dotenv.config();
 
 function filter(carrinho, item) {
     const carrinhoNovo = [];
+    let k = 0;
     for(let i = 0; i < carrinho.length; i++) {
         if (i !== item) {
-            carrinhoNovo = [...carrinhoNovo, carrinho[i]];
+            carrinhoNovo[k] = carrinho[i];
+            k++;
         }
     }
     return carrinhoNovo;
