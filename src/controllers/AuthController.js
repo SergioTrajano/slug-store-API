@@ -12,6 +12,12 @@ export async function signUp(req, res) {
 
     try {
         await db.collection(process.env.MONGO_CADASTRADOS).insertOne({...dadosUsuarios, senha: senhaHashada});
+        const usuario = await db.collection(process.env.MONGO_CADASTRADOS).findOne({ email: dadosUsuarios.email});
+
+        await db.collection(process.env.MONGO_CARRINHOS).insertOne({
+            carrinhoId: usuario._id,
+            itens: [],
+        });
 
         res.sendStatus(200);
     } catch (error) {

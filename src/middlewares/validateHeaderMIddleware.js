@@ -19,11 +19,6 @@ async function validateHeader(req, res, next) {
     const chaveSecreta = process.env.JWT_SECRET;
     const usuario = jwt.verify(token.replace("Bearer ", ""), chaveSecreta);
 
-    if (!usuario) {
-        res.sendStatus(404);
-        return;
-    }
-
     res.locals.usuario = usuario;
 
     next();

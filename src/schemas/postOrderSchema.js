@@ -8,7 +8,7 @@ const orderSchema = joi.object({
     paymentData: {
         numero: joi.string().length(16).required(),
         codigo: joi.string().length(3).required(),
-        validade: joi.date().greater(dayjs()),
+        validade: joi.string().required(),
     },
 });
 

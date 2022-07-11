@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 
 import db from "../db-strategy/mongo.js";
 
-export default async function validatePutCart(req, res, next) {
+export default async function validatePutProducts(req, res, next) {
     const token = req.headers.authorization;
     const chaveSecreta = process.env.JWT_SECRET;
 

@@ -1,5 +1,5 @@
 import { cadastrarProduto, retornarProdutos, retornarProdutoSelecionado, atualizarProdutos } from '../controllers/productController.js';
-import { validatePutProducts } from "../middlewares/validatePutProducts.js";
+import validatePutProducts from "../middlewares/validatePutProducts.js";
 import { Router } from 'express';
 
 const router = Router();
