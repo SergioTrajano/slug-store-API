@@ -38,7 +38,7 @@ export async function deletarItem(req, res) {
                     itens: novoCarrinho,
                 } 
             });
-        res.sendStatus(200);
+        res.status(200).send(novoCarrinho);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
