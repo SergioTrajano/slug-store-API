@@ -30,7 +30,7 @@ export async function cadastrarProduto (req, res) {
 };
 
 export async function retornarProdutos (req, res) {
-    const { type } = req.headers; // PEGA OS DADOS DO HEADERS PARA INDICAR A COLECAO DO BANCO! 
+    const { type } = req.headers; 
 
   try {
     const produtosDisplay = await db
@@ -62,7 +62,7 @@ export async function atualizarProdutos (req, res) {
   const pedido = res.locals.pedido;
 
   try {
-    const carrinhodoUsuario = pedido.itens; // seria o array de objetos = produtos
+    const carrinhodoUsuario = pedido.itens; 
     const produtosTan = await db.collection(process.env.MONGO_PRODUTOS).find().toArray();
     for(let i = 0; i < produtosTan.length; i ++) {
       for(let j = 0; j < carrinhodoUsuario.length; j++) {
