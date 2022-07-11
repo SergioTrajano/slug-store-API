@@ -10,8 +10,10 @@ function filter(carrinho, item) {
     let k = 0;
     for(let i = 0; i < carrinho.length; i++) {
         if (i !== item) {
+            console.log("entrei aqui");
             carrinhoNovo[k] = carrinho[i];
             k++;
+            console.log(carrinhoNovo);
         }
     }
     return carrinhoNovo;
