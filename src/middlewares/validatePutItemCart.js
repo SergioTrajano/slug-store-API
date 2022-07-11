@@ -18,7 +18,6 @@ function filter(carrinho, item) {
 export default async function validateDeleteCCartItem(req, res, next) {
     const usuario = res.locals.usuario;
     const item = req.params.item;
-    console.log(usuario)
 
 
     try {

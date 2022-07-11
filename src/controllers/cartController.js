@@ -32,7 +32,7 @@ export async function deletarItem(req, res) {
 
     try {
         await db.collection(process.env.MONGO_CARRINHOS).updateOne(
-            { carrinhoId: user.sessionId }, 
+            { carrinhoId: ObjectId(user.sessionId) }, 
             { 
                 $set: {
                     itens: novoCarrinho,
