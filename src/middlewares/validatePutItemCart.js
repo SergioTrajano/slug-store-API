@@ -29,6 +29,7 @@ export default async function validateDeleteCCartItem(req, res, next) {
             return;
         }
         const novoCarrinho = filter(carrinho, item);
+        console.log(novoCarrinho)
 
         res.locals.novoCarrinho = novoCarrinho;
 
