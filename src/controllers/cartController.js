@@ -29,6 +29,7 @@ export async function adicionarItem(req, res) {
 
 export async function deletarItem(req, res) {
     const novoCarrinho = res.locals.novoCarrinho;
+    const user = res.locals.usuario;
 
     try {
         await db.collection(process.env.MONGO_CARRINHOS).updateOne(
