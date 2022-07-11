@@ -27,6 +27,7 @@ export default async function validateDeleteCCartItem(req, res, next) {
 
     try {
         const carrinho = await db.collection(process.env.MONGO_CARRINHOS).findOne({ carrinhoId: ObjectId(usuario.sessionId)});
+        console.log(`${carrinho} carrinho`)
 
         if (!carrinho) {
             res.sendStatus(404);
