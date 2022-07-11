@@ -8,6 +8,7 @@ dotenv.config();
 function filter(carrinho, item) {
     const carrinhoNovo = [];
     let k = 0;
+    console.log(`Item: ${item}`)
     for(let i = 0; i < carrinho.length; i++) {
         if (carrinho[[i]] !== item) {
             console.log("entrei aqui");
@@ -26,14 +27,13 @@ export default async function validateDeleteCCartItem(req, res, next) {
 
     try {
         const carrinho = await db.collection(process.env.MONGO_CARRINHOS).findOne({ carrinhoId: ObjectId(usuario.sessionId)});
-        console.log(`${carrinho} carrinho`)
+        console.log(`${carrinho.itens} carrinho`)
 
         if (!carrinho) {
             res.sendStatus(404);
             return;
         }
         const novoCarrinho = filter(carrinho.itens, item);
-        console.log(novoCarrinho)
 
         res.locals.novoCarrinho = novoCarrinho;
 
