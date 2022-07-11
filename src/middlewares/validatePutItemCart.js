@@ -9,7 +9,7 @@ function filter(carrinho, item) {
     const carrinhoNovo = [];
     let k = 0;
     for(let i = 0; i < carrinho.length; i++) {
-        if (i !== item) {
+        if (carrinho[[i]] !== item) {
             console.log("entrei aqui");
             carrinhoNovo[k] = carrinho[i];
             k++;
@@ -22,7 +22,6 @@ function filter(carrinho, item) {
 export default async function validateDeleteCCartItem(req, res, next) {
     const usuario = res.locals.usuario;
     const item = req.params.item;
-    console.log(item)
 
 
     try {
