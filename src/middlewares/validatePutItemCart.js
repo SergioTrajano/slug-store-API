@@ -11,10 +11,8 @@ function filter(carrinho, item) {
     console.log(`Item: ${item}`)
     for(let i = 0; i < carrinho.length; i++) {
         if (i !== Number(item)) {
-            console.log("entrei aqui");
             carrinhoNovo[k] = carrinho[i];
             k++;
-            console.log(carrinhoNovo);
         }
     }
     return carrinhoNovo;
@@ -27,7 +25,6 @@ export default async function validateDeleteCCartItem(req, res, next) {
 
     try {
         const carrinho = await db.collection(process.env.MONGO_CARRINHOS).findOne({ carrinhoId: ObjectId(usuario.sessionId)});
-        console.log(`${carrinho.itens} carrinho`)
 
         if (!carrinho) {
             res.sendStatus(404);
