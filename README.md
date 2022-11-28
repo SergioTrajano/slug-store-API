@@ -1,4 +1,4 @@
-# slug-store-API# <p align = "center"> Projeto X </p>
+# slug-store-API# <p align = "center"> API SlugStore </p>
 
 <p align="center">
    <img src="https://www.cora.com.br/blog/wp-content/uploads/2021/08/api-open-banking.png"/>
@@ -14,7 +14,7 @@
 
 ##  :clipboard: Descrição
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla urna massa, mollis id facilisis ut, tristique convallis dolor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas a egestas sapien, lacinia iaculis nisi. Nam molestie fringilla egestas. Vestibulum pulvinar consequat arcu a varius. Vestibulum nec finibus enim. In at lobortis elit. Mauris imperdiet neque quis imperdiet ornare. Maecenas non nulla orci. Vestibulum tempor vitae tortor eget lobortis. Integer sapien eros, condimentum sit amet est at, vulputate efficitur elit. Praesent in velit pharetra, commodo libero a, egestas leo. Sed nunc enim, sodales vel pretium at, sodales a magna. Mauris nec nibh at enim venenatis faucibus. Duis bibendum commodo mattis. Phasellus luctus felis varius porta lacinia.
+API do e-commerce SlugStore. A partir dela é possivel realizar cadastro e login, adicionar produtos ao carrinho. Cadastrar produtos e realizar compras.
 
 ***
 
@@ -23,7 +23,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla urna massa, molli
 - REST APIs
 - JWTs & refresh tokens
 - Node.js
-- TypeScript
+- JavaScript
 - MongoDB with Mongoose
 
 ***
@@ -31,67 +31,137 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla urna massa, molli
 ## :rocket: Rotas
 
 ```yml
-POST /cadastro
+POST /users
     - Rota para cadastrar um novo usuário
     - headers: {}
     - body:{
         "nome": "Lorem ipsum",
         "email": "lorem@gmail.com",
         "senha": "loremipsum"
-}
+    }
+    - response: retorna statusCode 422 para body invalido;
+                retorna statusCode 409 caso o email já esteja em uso;
+                retorna statusCOde 201 para cadastro realizado com sucesso;
 ```
     
 ```yml 
-POST /login
+GET /users
     - Rota para fazer login
     - headers: {}
     - body: {
-    "email": "lorem@gmail.com",
-    "senha": "loremipsum"
+         "email": "lorem@gmail.com",
+         "senha": "loremipsum"
     }
+    - response: retorna statusCode 422 caso o body seja invalido;
+                retorna statusCode 404 para email invalido;
+                retorna statusCode 403 para senha invalida;
+                retorna statusCode 200 e um objeto no formato { name: "nome-do-usuario", token: "token-do-usuario" }
 ```
     
+Todas rotas autenticadas retornam statusCode 422 para headers invalido!
+
 ```yml 
-GET /usuarios (autenticada)
-    - Rota para listar todos os usuários
+PUT /cart (autenticada)
+    - Rota adicionar todo um carrinho ao banco de dados, quando o usuario tem itens no carrinho e faz login.
     - headers: { "Authorization": "Bearer $token" }
-    - body: {}
+    - body: array com os itens do carrinho
+    - response: retorna statusCode 200 e o carrinho atualizado;
 ```
 
 ```yml
-GET /usuarios/:id (autenticada)
-    - Rota para listar um usuário pelo id
+PUT /cart/add (autenticada)
+    - Rota para adicionar itens ao carrinho;
     - headers: { "Authorization": "Bearer $token" }
-    - body: {}
+    - body: objeto com os dados do produto;
+    - response: retorna statusCode 404 caso o usuario não possua carrinho cadastrado;
+                retorna sttusCode 200 e um array com os dados do carrinho atualizado;
 ``` 
 
 ```yml
-PUT /usuarios/:id (autenticada)
-    - Rota para atualizar um usuário pelo id
+DELETE /cart/:item (autenticada)
+    - Rota para excluir item do carrinho;
     - headers: { "Authorization": "Bearer $token" }
-    - body: {
-        "nome": "Lorem ipsum2",
-        "email": "lorem2@gmail.com",
-        "senha": "loremipsum2"
-    }
+    - body: {};
+    - response: retorna statusCode 404 caso não exista carrinho com o id especificado;
+                retorna statusCode 200 e um array que representa o carrinho atualizado;
 ```
  
 ```yml
-DELETE /usuarios/:id (autenticada)
-    - Rota para deletar um usuário pelo id
+DELETE /cart (autenticada)
+    - Rota para esvaziar o carrinho do usuario;
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
+    - response: retorna statusCode 404 caso o usuario não possua carrinho cadastrado;
+                retorna statusCode 200 para carrinho esvaziado com sucesso;
 ```
+ 
+```yml
+POST /order (autenticada)
+    - Rota para deletar um usuário pelo id
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+          itens: array com itens a serem comprados,
+          valor: total da compra,
+          formaPagamento: modalidade de pagamento (credito ou debito),
+          paymentData: {
+              numero: numero do cartão,
+              codigo: codigo de segurança do cartão,
+              validade: validade do cartão,
+          },
+    }
+    response: retorna statusCode 200 para compra realizada;
+```
+
+```yml
+POST /products
+    - Rota para cadastrar um produto;
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+           product: dadosProduto.product,
+           type: tipo do produto,
+           image: imagem do produto,
+           price: preço do produto,
+           description: descrição do produto,
+           quantity: quantidade
+         }
+    - response: retorna statusCode 201 para produto cadastrado com sucesso;
+```
+ 
+```yml
+GET /products 
+    - Rota para listar os produtos de uma determianda categoria;
+    - headers: { "Authorization": "Bearer $token", type: tipo do produto }
+    - body: {}
+    - response: retorna statusCode 200 e um array contendo todos os produtos da categoria;
+```
+ 
+```yml
+GET /products/:id 
+    - Rota para pegar os dados de um produto
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: retorna statusCode 200 e os dados do produto do id especificado;
+```
+ 
+```yml
+PUT /products (autenticada)
+    - Rota para diminuir no estoque os itens comprados;
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: retorna statusCode 404 caso o usuario não tenha realizado pedidos;
+                retorna statusCode 200 para estoque atualizado com sucesso;
+``` 
+
 ***
 
 ## 🏁 Rodando a aplicação
 
-Este projeto foi inicializado com o [Create React App](https://github.com/facebook/create-react-app), então certifique-se que voce tem a ultima versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
+Certifique-se que voce tem a ultima versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
 
 Primeiro, faça o clone desse repositório na sua maquina:
 
 ```
-git clone https://github.com/luanalessa/projeto-backend.git
+git clone https://github.com/SergioTrajano/slug-store-API
 ```
 
 Depois, dentro da pasta, rode o seguinte comando para instalar as dependencias.
@@ -99,12 +169,15 @@ Depois, dentro da pasta, rode o seguinte comando para instalar as dependencias.
 ```
 npm install
 ```
+Em um terminal inicie o servidor do mongo com:
+
+```
+mongod --dbpath ~/.mongo
+```
 
 Finalizado o processo, é só inicializar o servidor
 ```
 npm start
 ```
 
-:stop_sign: Não esqueça de repetir os passos acima com o [repositório](https://github.com/luanalessa/projeto-frontend.git) que contem a interface da aplicação, para testar o projeto por completo.
-
-API de um E-commerce de lesmas do anime SlugTerra
+:stop_sign: Não esqueça de repetir os passos acima com o [repositório](https://github.com/SergioTrajano/slug-store) que contem a interface da aplicação, para testar o projeto por completo.
